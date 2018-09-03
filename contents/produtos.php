@@ -30,6 +30,7 @@
                 <th>Preço</th>
                 <th>Situação</th>
                 <th>Opções</th>
+                <th>Estoque</th>
               </tr>
             </thead>
             <tbody>
@@ -50,9 +51,12 @@
                 ?>
               </td>
               <td>
-              <button class="btn btn-sm" data-toggle="modal" data-target="#mdEditProduto<?php echo $produto['id']; ?>"><i class="material-icons" style="font-size:20px;color:grey;"  >edit</i></button>
-              <a class="btn btn-sm" href="#"><i class="material-icons" style="font-size:20px;color:grey;" data-toggle="modal" data-target="#mdEditProduto">search</i></a>
-              <a class="btn btn-sm" href="./dao/produtos/processa/deleta_produto.php?id=<?php echo $produto['id']; ?>"><i class="material-icons" style="font-size:20px;color:grey;">delete</i></a>
+                <button class="btn btn-sm" data-toggle="modal" data-target="#mdEditProduto<?php echo $produto['id']; ?>"><i class="material-icons" style="font-size:20px;color:grey;"  >edit</i></button>
+                <a class="btn btn-sm" href="#"><i class="material-icons" style="font-size:20px;color:grey;" data-toggle="modal" data-target="#mdDelProduto">search</i></a>
+                <a class="btn btn-sm" data-toggle="modal" data-target="#mdDelProduto<?php echo $produto['id']; ?>" ><i class="material-icons" style="font-size:20px;color:grey;">delete</i></a>
+              </td>
+              <td>
+              <a class="btn btn-sm" data-toggle="modal" data-target="#mdDelProduto<?php echo $produto['id']; ?>" ><i class="material-icons" style="font-size:20px;color:grey;">menu</i></a>
               </td>
 
                <!-- Modal Editar Produto -->
@@ -61,19 +65,70 @@
                         <div class="modal-content">
                           <!-- Modal Header -->
                           <div class="modal-header">
-                            <h4 class="modal-title"><?php echo $produto['nome']; ?></h4>
+                            <h4 class="modal-title">Editar Produto</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                           </div>
                           
                           <!-- Modal body -->
                           <div class="modal-body">
-                              <p><?php echo $produto['descricao']; ?></p>
-                              <p><?php echo $produto['preco']; ?></p>
+                              
+                          <div class="col-md-12 order-md-1">
+                              <form class="needs-validation" novalidate action="./dao/produtos/processa/editar_produto.php" method="POST">
+                                <div class="row">
+
+                                <div class="col-md-12 mb-3">
+                                    <label for="nome">Nome do Produto</label>
+                                    <input type="hidden" class="form-control" id="id" name="id" value="<?php echo $produto['id']; ?>">
+                                    <input type="text" class="form-control" id="nome" placeholder="Nome do Produto" name="nome" value="<?php echo $produto['nome']; ?>">
+                                    <div class="invalid-feedback">
+                                    Por Favor entre com o nome do Produto.
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mb-1">
+                                    <label for="decricao_curta">Descrição do Produto</label>
+                                    <textarea  class="form-control"  rows="2" id="descricao" placeholder="Descreva o produto." name="descricao">
+                                    <?php echo $produto['descricao']; ?>
+                                    </textarea>
+                                    <div class="invalid-feedback">
+                                    Por Favor descreva o produto.
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label for="preco">Preço</label>
+                                    <input type="text"  class="form-control" id="preco" placeholder="Preço do produto." name="preco" value="<?php echo $produto['preco']; ?>">
+                                    <div class="invalid-feedback">
+                                    Preço do produto.
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                <label for="situacao_id">Situação</label>
+                                <select class="form-control" id="situacao_id" name="situacao_id">
+                                    <option value="<?php echo $produto['situacao_id']; ?>"><?php echo $produto['situacao']; ?></option>
+                                <?php 
+                                    $situacoes = mysqli_query($conexao, "SELECT * FROM situacao");
+                                    while($situacao = mysqli_fetch_assoc($situacoes)){
+                                ?>
+                                    <option value="<?php echo $situacao['id'] ?>"><?php echo $situacao['nome'] ?></option>
+                                <?php
+                                    }
+                                ?>
+                                </select>
+                                </div>
+
+                                </div>
+                                
+                              </div>
+
                           </div>
                           
                           <!-- Modal footer -->
                           <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" >Salvar</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </form>
                           </div>
                           
                         </div>
@@ -81,7 +136,45 @@
                     </div>
                     <!-- Modal Editar Produto -->
 
+                    <!-- Modal excluir Produto -->
+                    <div class="modal" data-backdrop="static" id="mdDelProduto<?php echo $produto['id']; ?>">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                              <h4 class="modal-title">Excluir Produto</h4>
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                
+                              <div class="col-md-12 order-md-1">
+                                  <form class="needs-validation" novalidate action="./dao/produtos/processa/deleta_produto.php" method="POST">
+                                    <div class="row">
 
+                                    <div class="col-md-12 mb-3">
+                                        <label ><?php echo $produto['nome']; ?></label>
+                                        <input type="hidden" class="form-control" id="id" name="id" value="<?php echo $produto['id']; ?>">
+                                    </div>
+
+                                  </div>
+                                    
+                                </div>
+
+                            </div>
+                            
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-primary" >Excluir</button>
+                              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                              </form>
+                            </div>
+                            
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Modal Excluir Produto -->
           </tr>
     <?php
         }

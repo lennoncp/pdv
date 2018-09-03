@@ -28,12 +28,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
-<!-- Editor para a descrição do produto -->
+<!-- Editor para a descrição do produto 
 <script src="https://cdn.ckeditor.com/4.10.0/standard/ckeditor.js"></script>
 <script>
       CKEDITOR.replace( 'descricao_curta' );
       CKEDITOR.replace( 'descricao_longa' );
 </script>
+-->
 
 <!-- Icons -->
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>

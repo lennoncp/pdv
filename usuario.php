@@ -24,6 +24,7 @@
         $page['5'] = "contents/produtos.php";
         $page['6'] = "contents/clientes.php";
         $page['7'] = "contents/usuarios.php";
+        $page['7'] = "contents/darBaixa.php";
         $page['8'] = "contents/login.php";
 
         if(!empty($link)){
